@@ -7,9 +7,7 @@ import {
 } from '../constants/cartConstants';
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
-  const { data } = await Axios.get(
-    `https://warm-sierra-17869.herokuapp.com/api/products/${productId}`
-  );
+  const { data } = await Axios.get(`/api/products/${productId}`);
   dispatch({
     type: CART_ADD_ITEM,
     payload: {

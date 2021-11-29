@@ -16,9 +16,7 @@ export const listPizza = () => async (dispatch) => {
     type: PIZZA_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get(
-      'https://warm-sierra-17869.herokuapp.com/api/products'
-    );
+    const { data } = await Axios.get('/api/products');
     dispatch({
       type: PIZZA_LIST_SUCCESS,
       payload: data.filter((product) => product.type === 'pizza'),
@@ -33,9 +31,7 @@ export const listSweet = () => async (dispatch) => {
     type: SWEET_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get(
-      'https://warm-sierra-17869.herokuapp.com/api/products'
-    );
+    const { data } = await Axios.get('/api/products');
     dispatch({
       type: SWEET_LIST_SUCCESS,
       payload: data.filter((product) => product.type === 'sweet'),
@@ -48,9 +44,7 @@ export const listSweet = () => async (dispatch) => {
 export const detailProduct = (productId) => async (dispatch) => {
   dispatch({ type: PRODUCT_DETAIL_REQUEST, payload: productId });
   try {
-    const { data } = await Axios.get(
-      `https://warm-sierra-17869.herokuapp.com/api/products/${productId}`
-    );
+    const { data } = await Axios.get(`/api/products/${productId}`);
     dispatch({ type: PRODUCT_DETAIL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
