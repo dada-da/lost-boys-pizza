@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 import MessageBox from "../components/MessageBox";
 
 export default function CartScreen(props) {
@@ -19,12 +19,18 @@ export default function CartScreen(props) {
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id) => {};
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const checkoutHandler = () => {
+    props.history.push("/signin?redirect=shipping");
+  };
 
   return (
     <div className="row top">
       <div className="col-2">
-        <h1>Shopping Cart</h1>
+        <h1 className="center-text">Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <MessageBox>
             Cart is empty. <Link to="/">Go Shopping</Link>
@@ -33,36 +39,35 @@ export default function CartScreen(props) {
           <ul>
             {cartItems.map((item) => (
               <li key={item.product}>
-                <div className="row">
-                  <div>
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      className="img-small"
-                    />
-                  </div>
-                  <div className="min-30">
-                    <Link to={`/api/products/${item.product}`}>
+                <div className="row cart">
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    className="img-small cart-margin"
+                  />
+
+                  <div className="min-25">
+                    <Link
+                      to={`/api/products/${item.product}`}
+                      className="cart-item-link"
+                    >
                       {item.name}
                     </Link>
                   </div>
-                  <div>
-                    <input
-                      className="input-box"
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product),
-                          Number(e.target.value)
-                        )
-                      }
-                    ></input>
-                  </div>
+
+                  <input
+                    className="qty-box"
+                    value={item.qty}
+                    onChange={(e) =>
+                      dispatch(addToCart(item.product, Number(e.target.value)))
+                    }
+                  ></input>
                   <div>${item.price}</div>
                   <div>
                     <button
                       type="button"
                       onClick={() => removeFromCartHandler(item.product)}
+                      className="delete-button block"
                     >
                       Delete
                     </button>
@@ -72,6 +77,28 @@ export default function CartScreen(props) {
             ))}
           </ul>
         )}
+      </div>
+      <div className="col-1">
+        <div className="card card-body">
+          <ul>
+            <li>
+              <h2>
+                Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
+                {cartItems.reduce((a, c) => a + c.price * c.qty, 0).toFixed(2)}
+              </h2>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={checkoutHandler}
+                className="checkout-button block"
+                disabled={cartItems.length === 0}
+              >
+                Proceed to Checkout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

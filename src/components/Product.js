@@ -5,13 +5,13 @@ const Product = ({ heading, data }) => {
   const history = useHistory();
   return (
     <div className="product-container">
-      <h1 className="produc-heading">{heading}</h1>
+      <h1 className="product-heading">{heading}</h1>
       <div className="product-warpper">
         {data
           ? data.map((product) => {
               return (
-                <div className="product-card" key={product.id}>
-                  <Link to={`/api/products/${product.id}`}>
+                <div className="product-card" key={product._id}>
+                  <Link to={`/api/products/${product._id}`}>
                     <img
                       className="product-img"
                       src={product.img}
@@ -21,15 +21,15 @@ const Product = ({ heading, data }) => {
 
                   <div className="product-info">
                     <Link
-                      to={`/api/products/${product.id}`}
+                      to={`/api/products/${product._id}`}
                       className="product-title"
                     >
                       <h2 className="product-title"> {product.name}</h2>
                     </Link>
-                    <p className="product-price">{product.price}</p>
+                    <p className="product-price">${product.price}</p>
                     <button
                       onClick={() =>
-                        history.push(`/cart/${product.id}?qty=${1}`, {
+                        history.push(`/cart/${product._id}?qty=${1}`, {
                           from: "CartScreen",
                         })
                       }

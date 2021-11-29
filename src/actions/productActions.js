@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 import {
   PRODUCT_DETAIL_FAIL,
   PRODUCT_DETAIL_REQUEST,
@@ -9,17 +9,17 @@ import {
   SWEET_LIST_FAIL,
   SWEET_LIST_REQUEST,
   SWEET_LIST_SUCCESS,
-} from "../constants/productConstants";
+} from '../constants/productConstants';
 
 export const listPizza = () => async (dispatch) => {
   dispatch({
     type: PIZZA_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get("/api/products");
+    const { data } = await Axios.get('/api/products');
     dispatch({
       type: PIZZA_LIST_SUCCESS,
-      payload: data.filter((product) => product.type === "pizza"),
+      payload: data.filter((product) => product.type === 'pizza'),
     });
   } catch (error) {
     dispatch({ type: PIZZA_LIST_FAIL, payload: error.message });
@@ -31,10 +31,10 @@ export const listSweet = () => async (dispatch) => {
     type: SWEET_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get("/api/products");
+    const { data } = await Axios.get('/api/products');
     dispatch({
       type: SWEET_LIST_SUCCESS,
-      payload: data.filter((product) => product.type === "sweet"),
+      payload: data.filter((product) => product.type === 'sweet'),
     });
   } catch (error) {
     dispatch({ type: SWEET_LIST_FAIL, payload: error.message });

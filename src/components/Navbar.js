@@ -1,17 +1,27 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { FaCaretDown } from "react-icons/fa";
+import { signout } from "../actions/userActions";
 
 function Navbar() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+  const distpatch = useDispatch();
+
+  const signoutHandler = () => {
+    distpatch(signout());
+  };
+
   return (
     <header>
       <nav className="nav-bar row">
         <h1 className="nav-bar-title">
           <Link to="/">Lost Boys Pizza</Link>
         </h1>
-        <div>
+        <div className="nav-wrapper">
           <Link to="/cart" className="nav-bar-link">
             Cart
             {cartItems.length > 0 && (
@@ -27,11 +37,24 @@ function Navbar() {
             className="nav-bar-link"
             rel="noreferrer noopener"
           >
-            Come with Us
+            Come to Us
           </a>
-          <Link to="/signin" className="nav-bar-link">
-            Sign in
-          </Link>
+          {userInfo ? (
+            <div className="dropdown">
+              <Link to="#" className="nav-bar-link">
+                {userInfo.name} <FaCaretDown />
+              </Link>
+              <ul className="dropdown-content">
+                <Link to="#signout" onClick={signoutHandler}>
+                  Sign Out
+                </Link>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/signin" className="nav-bar-link">
+              Sign in
+            </Link>
+          )}
         </div>
       </nav>
     </header>
