@@ -1,6 +1,5 @@
 {
   "name": "frontend",
-  "proxy": "https://warm-sierra-17869.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
